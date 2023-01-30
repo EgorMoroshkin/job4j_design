@@ -36,7 +36,7 @@ class SimpleConvertTest {
         SimpleConvert simpleConvert = new SimpleConvert();
         Set<String> set = simpleConvert.toSet("Monday", "Friday", "Wednesday", "Thursday");
         assertThat(set).hasSize(4)
-                .containsExactlyInAnyOrder("Monday", "Friday","Wednesday", "Thursday")
+                .containsExactlyInAnyOrder("Monday", "Friday", "Wednesday", "Thursday")
                 .isNotNull()
                 .isNotEmpty();
         assertThat(set).first().isEqualTo("Monday");
