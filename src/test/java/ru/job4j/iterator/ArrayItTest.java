@@ -24,4 +24,12 @@ class ArrayItTest {
         assertThat(it.next()).isEqualTo(2);
         assertThat(it.next()).isEqualTo(3);
     }
+
+    @Test
+    public void whenNextFromEmpty() {
+        ArrayIt it = new ArrayIt(
+                new int[] {}
+        );
+        it.next();
+    }
 }
