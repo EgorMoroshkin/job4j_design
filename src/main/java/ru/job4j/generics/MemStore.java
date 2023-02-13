@@ -16,20 +16,12 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean replace(String id, T model) {
-        if (findById(id) != null) {
-            storage.replace(id, model);
-            return true;
-        }
-        return false;
+        return storage.containsKey(id) && storage.replace(id, storage.get(id), model);
     }
 
     @Override
     public boolean delete(String id) {
-        if (findById(id) != null) {
-            storage.remove(id);
-            return true;
-        }
-        return false;
+        return storage.containsKey(id) && storage.remove(id, storage.get(id));
     }
 
     @Override
