@@ -77,6 +77,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     }
 
     private void grow() {
-          container = Arrays.copyOf(container, container.length * 2 + 1);
+        int newLength = container.length == 0 ? 1 : container.length * 2;
+        container = Arrays.copyOf(container, newLength);
     }
 }
