@@ -57,7 +57,7 @@ public class ForwardLinked<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private ForwardLinked.Node<T> node = head;
+            private Node<T> node = head;
             private int expectedModCount = modCount;
 
             @Override
@@ -73,7 +73,7 @@ public class ForwardLinked<T> implements Iterable<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                ForwardLinked.Node<T> rsl = node;
+                Node<T> rsl = node;
                 node = node.next;
                 return rsl.item;
             }
@@ -82,9 +82,9 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     private static class Node<T> {
         private T item;
-        private ForwardLinked.Node<T> next;
+        private Node<T> next;
 
-        Node(T element, ForwardLinked.Node<T> next) {
+        Node(T element, Node<T> next) {
             this.item = element;
             this.next = next;
         }
