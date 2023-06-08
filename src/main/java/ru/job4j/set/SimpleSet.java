@@ -26,7 +26,6 @@ public class SimpleSet<T> implements Set<T> {
                 rsl = true;
                 break;
             }
-            continue;
         }
         return rsl;
     }
