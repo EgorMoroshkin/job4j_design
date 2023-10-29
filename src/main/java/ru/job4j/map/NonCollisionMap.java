@@ -30,8 +30,9 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     }
 
     private boolean equalsKeys(K key) {
-        return Objects.hashCode(table[indexForKey(key)].key) == Objects.hashCode(key)
-                && Objects.equals(table[indexForKey(key)].key, key);
+        MapEntry<K, V> tempIndexTable = table[indexForKey(key)];
+        return Objects.hashCode(tempIndexTable.key) == Objects.hashCode(key)
+                && Objects.equals(tempIndexTable.key, key);
     }
 
     private void expand() {
@@ -39,7 +40,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (MapEntry<K, V> element : table) {
             if (element != null) {
-                newTable[hash(Objects.hashCode(element.key) & newTable.length - 1)] = element;
+                newTable[indexForKey(element.key)] = element;
             }
         }
         table = newTable;
@@ -50,9 +51,10 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         if (count >= LOAD_FACTOR * capacity) {
             expand();
         }
-        boolean rsl = table[indexForKey(key)] == null;
+        int tempIndex = indexForKey(key);
+        boolean rsl = table[tempIndex] == null;
         if (rsl) {
-            table[indexForKey(key)] = new MapEntry<>(key, value);
+            table[tempIndex] = new MapEntry<>(key, value);
             count++;
             modCount++;
         }
@@ -61,16 +63,17 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     @Override
     public V get(K key) {
-        return table[indexForKey(key)] != null && equalsKeys(key)
-                ? table[indexForKey(key)].value : null;
+        int tempIndex = indexForKey(key);
+        return table[tempIndex] != null && equalsKeys(key)
+                ? table[tempIndex].value : null;
     }
 
     @Override
     public boolean remove(K key) {
-        MapEntry<K, V> cell = table[indexForKey(key)];
-        boolean rsl = cell != null && equalsKeys(key);
+        int tempIndex = indexForKey(key);
+        boolean rsl = table[tempIndex] != null && equalsKeys(key);
         if (rsl) {
-            table[indexForKey(key)] = null;
+            table[tempIndex] = null;
             count--;
             modCount++;
         }
