@@ -18,11 +18,13 @@ public class LogFilter {
         List<String> rls = new ArrayList<>();
 
         try (BufferedReader input = new BufferedReader(new FileReader(file))) {
-            rls = input.lines().filter(x -> {
-                        String[] str = x.split(" ");
-                        return str[str.length - 2].equals("404");
-                    }
-            ).collect(Collectors.toList());
+            String lines;
+            while ((lines = input.readLine()) != null) {
+                String[] tempLine = lines.split(" ");
+                if (tempLine[tempLine.length - 2].equals("404")) {
+                    rls.add(lines);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
