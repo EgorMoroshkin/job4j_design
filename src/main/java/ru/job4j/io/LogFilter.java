@@ -21,7 +21,7 @@ public class LogFilter {
             String lines;
             while ((lines = input.readLine()) != null) {
                 String[] tempLine = lines.split(" ");
-                if (tempLine[tempLine.length - 2].equals("404")) {
+                if ("404".equals(tempLine[tempLine.length - 2])) {
                     rls.add(lines);
                 }
             }
