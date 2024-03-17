@@ -26,7 +26,7 @@ public class Config {
             while ((tempString = reader.readLine()) != null) {
                 if (!tempString.isBlank() && !tempString.startsWith("#")) {
                     if (!tempString.matches("\\S+=\\S+")) {
-                        throw new IllegalArgumentException("Error pattern: key=value");
+                        throw new IllegalArgumentException("Error pattern: key = value");
                     }
                     String[] temp = tempString.split("=", 2);
                     values.put(temp[0], temp[1]);
