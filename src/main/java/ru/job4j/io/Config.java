@@ -6,28 +6,30 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
-import java.util.stream.Stream;
 
 public class Config {
 
     private final String path;
-    private final Map<String, String> values = new HashMap<String, String>();
+    private final Map<String, String> values = new HashMap<>();
 
     public Config(final String path) {
         this.path = path;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new Config("data/app.properties"));
+    }
+
     public void load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(this.path))) {
-            String str;
-            while ((str = reader.readLine()) != null) {
-                if (!str.isBlank() && !str.startsWith("#")) {
-                    if (str.matches("\\S+=\\S+")) {
-                        String[] temp = str.split("=", 2);
-                        values.put(temp[0], temp[1]);
-                    } else {
+            String tempString;
+            while ((tempString = reader.readLine()) != null) {
+                if (!tempString.isBlank() && !tempString.startsWith("#")) {
+                    if (!tempString.matches("\\S+=\\S+")) {
                         throw new IllegalArgumentException("Error pattern: key=value");
                     }
+                    String[] temp = tempString.split("=", 2);
+                    values.put(temp[0], temp[1]);
                 }
             }
         } catch (IOException e) {
@@ -48,9 +50,5 @@ public class Config {
             e.printStackTrace();
         }
         return output.toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Config("data/app.properties"));
     }
 }
