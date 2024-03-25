@@ -13,7 +13,8 @@ public class Analysis {
             while (reader.ready()) {
                 String line = reader.readLine();
                 if (server == null && (line.startsWith("400") || (line.startsWith("500")))) {
-                    writer.write(line.split(" ")[1] + ";");
+                    writer.write(line.split(" ")[1]);
+                    writer.write(";");
                     server = line;
                 } else if (server != null && (!line.startsWith("400") && (!line.startsWith("500")))) {
                     writer.write(line.split(" ")[1]);
