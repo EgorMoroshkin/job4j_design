@@ -21,6 +21,11 @@ public class Search {
     }
 
     public static void validate(String[] str) {
+        for (String s : str) {
+            if (!s.contains("C:\\") && !s.contains(".")) {
+                throw new IllegalArgumentException("Arguments is null");
+            }
+        }
         if (str.length == 0) {
             throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
         }
