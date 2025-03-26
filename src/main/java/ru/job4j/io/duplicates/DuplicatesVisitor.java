@@ -1,6 +1,5 @@
 package ru.job4j.io.duplicates;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
-    HashMap<FileProperty, List<Path>> filePropertyMap = new HashMap<>();
+    private HashMap<FileProperty, List<Path>> filePropertyMap = new HashMap<>();
 
     @Override
     public FileVisitResult visitFile(Path file,
