@@ -21,7 +21,7 @@ public class Search {
         return searcher.getPaths();
     }
 
-    private static void validate(String[] str) {
+    public static void validate(String[] str) {
         if (str.length != 2) {
             throw new IllegalArgumentException("Number of arguments is not equal to 2");
         }
