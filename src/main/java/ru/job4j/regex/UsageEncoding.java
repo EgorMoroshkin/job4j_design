@@ -18,7 +18,8 @@ public class UsageEncoding {
     }
 
     public static void writeDataInFile(String path, List<String> data) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
             data.forEach(writer::println);
         } catch (IOException e) {
             e.printStackTrace();
@@ -26,7 +27,7 @@ public class UsageEncoding {
     }
 
     public static void main(String[] args) {
-        String path = "./src/data/text.txt";
+        String path = "./data/text.txt";
         UsageEncoding encoding = new UsageEncoding();
         List<String> strings = List.of(
                 "Новая строка 1",

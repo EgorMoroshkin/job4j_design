@@ -3,7 +3,10 @@ package ru.job4j.io;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ru.job4j.io.Search.validateParams;
+
 public class ArgsName {
+
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
@@ -11,15 +14,15 @@ public class ArgsName {
         if (rls == null) {
             throw new IllegalArgumentException(String.format("This key: '%s' is missing", key));
         }
-        return values.get(key);
+        return rls;
     }
 
     private void parse(String[] args) {
-        for (String arg : args) {
-            int index = arg.strip().indexOf("=");
-            validate(arg, index);
-            String key = arg.substring(1, index);
-            String value = arg.substring(index + 1);
+        for (String str : args) {
+            int index = str.strip().indexOf("=");
+            validate(str, index);
+            String key = str.substring(1, index);
+            String value = str.substring(index + 1);
             values.put(key, value);
         }
     }
@@ -31,14 +34,6 @@ public class ArgsName {
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
-    }
-
-    public static void main(String[] args) {
-        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
-        System.out.println(jvm.get("Xmx"));
-
-        ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
-        System.out.println(zip.get("out"));
     }
 
     private void validate(String arg, int index) {
@@ -54,5 +49,13 @@ public class ArgsName {
         if (index == arg.length() - 1) {
             throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a value", arg));
         }
+    }
+
+    public static void main(String[] args) {
+        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
+        System.out.println(jvm.get("encoding"));
+
+        ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
+        System.out.println(zip.get("out"));
     }
 }

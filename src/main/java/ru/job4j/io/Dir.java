@@ -1,6 +1,5 @@
 package ru.job4j.io;
 
-
 import java.io.File;
 
 public class Dir {
@@ -10,13 +9,14 @@ public class Dir {
         }
         File file = new File(args[0]);
         if (!file.exists()) {
-            throw new IllegalArgumentException(String.format("Not exist %s", file.getAbsoluteFile()));
+            throw new IllegalArgumentException(String.format("Директория не существует: %s", file.getAbsoluteFile()));
         }
         if (!file.isDirectory()) {
-            throw new IllegalArgumentException(String.format("Not directory %s", file.getAbsoluteFile()));
+            throw new IllegalArgumentException(String.format("Это не директория: %s", file.getAbsoluteFile()));
         }
-        System.out.println(String.format("size : %s", file.getTotalSpace()));
+        System.out.println(String.format("Размер директории: %s", file.getTotalSpace()));
         for (File subfile : file.listFiles()) {
+//            System.out.println(subfile.getName() + " " + subfile.length());
             System.out.print(String.format("name: %s", subfile.getName()));
             System.out.print(String.format(" length: %s", subfile.length()));
             System.out.println();

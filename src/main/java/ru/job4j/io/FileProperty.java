@@ -1,4 +1,4 @@
-package ru.job4j.io.duplicates;
+package ru.job4j.io;
 
 import java.util.Objects;
 

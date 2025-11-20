@@ -10,14 +10,10 @@ import java.util.StringJoiner;
 public class Config {
 
     private final String path;
-    private final Map<String, String> values = new HashMap<>();
+    private final Map<String, String> values = new HashMap<String, String>();
 
     public Config(final String path) {
         this.path = path;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Config("data/app.properties"));
     }
 
     public void load() {
@@ -51,4 +47,9 @@ public class Config {
         }
         return output.toString();
     }
+
+    public static void main(String[] args) {
+        System.out.println(new Config("data/app.properties"));
+    }
 }
+

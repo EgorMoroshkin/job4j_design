@@ -10,7 +10,10 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        validate(args);
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
+        }
+        validateParams(args);
         Path start = Paths.get(args[0]);
         search(start, path -> path.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
@@ -21,25 +24,22 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static void validate(String[] str) {
+    public static void validateParams(String[] str) {
         if (str.length != 2) {
-            throw new IllegalArgumentException("Number of arguments is not equal to 2");
+            throw new IllegalArgumentException("Arguments != 2");
+        }
+        if (!str[1].startsWith(".")) {
+            throw new IllegalArgumentException("Second arguments is not correc");
         }
         if (!checkPath(str)) {
             throw new IllegalArgumentException("First arguments is not correct");
-        }
-        if (!str[1].startsWith(".")) {
-            throw new IllegalArgumentException("Second arguments is not correct");
-        }
-        if (str.length == 0) {
-            throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
         }
     }
 
     private static boolean checkPath(String[] str) {
         File file = new File(str[0]);
         if (str[0].isEmpty()) {
-            throw new IllegalArgumentException("First arguments is null");
+            throw new IllegalArgumentException("First argement is null");
         }
         if (!file.exists()) {
             throw new IllegalArgumentException(String.format("Not exist %s", file.getAbsoluteFile()));
