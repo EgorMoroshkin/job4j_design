@@ -17,77 +17,29 @@ public class CSVReader {
         String filter = argsName.get("filter");
         StringBuilder headerResult = new StringBuilder();
 
-        //Создаем Scanner для чтения файла
         Scanner scanner = new Scanner(Path.of(path), StandardCharsets.UTF_8);
 
-        //Читаем первую строку заголовки = name;age;last_name;education
         String headerLine = scanner.nextLine();
         String[] allColumns = headerLine.split(delimiter);
-
-        //Разбираем фильтр  = name,age
         String[] neededColumns = filter.split(",");
 
-        //Создаем список индексов нужных столбцов = 0,1
         List<Integer> columnsIndexes = new ArrayList<>();
-        for (String needed : neededColumns) {
-            for (int i = 0; i < allColumns.length; i++) {
-                if (needed.equals(allColumns[i])) {
-                    columnsIndexes.add(i);
-                    break;
-                }
-            }
-        }
+        getColumnsIndexes(neededColumns, allColumns, columnsIndexes);
 
-        //Читаем и заголовки
-        for (int i = 0; i < columnsIndexes.size(); i++) {
-            int colIndex = columnsIndexes.get(i);
-            headerResult.append(allColumns[colIndex]);
+        getHeaderResult(columnsIndexes, allColumns, headerResult, delimiter);
 
-            if (i < columnsIndexes.size() - 1) {
-                headerResult.append(delimiter);
-            }
-        }
-
-        //Выводим данные в консоль или файл
         if ("stdout".equals(out)) {
-            //Выводим в консоль
             System.out.println(headerResult);
-            //Выводим данные построчно
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] data = line.split(delimiter);
-                StringBuilder dataResult = new StringBuilder();
-                for (int i = 0; i < columnsIndexes.size(); i++) {
-                    int colIndex = columnsIndexes.get(i);
-                    dataResult.append(data[colIndex]);
-
-                    if (i < columnsIndexes.size() - 1) {
-                        dataResult.append(delimiter);
-                    }
-                }
-                System.out.println(dataResult);
+                System.out.println(getOut(scanner, delimiter, columnsIndexes));
             }
 
         } else {
-            //Вывод в файл
             try (BufferedWriter writer = Files.newBufferedWriter(Path.of(out), StandardCharsets.UTF_8)) {
-                //Записываем заголовки
                 writer.write(headerResult.toString());
                 writer.newLine();
-                //Записываем данные
                 while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String[] data = line.split(delimiter);
-                    StringBuilder dataResult = new StringBuilder();
-                    for (int i = 0; i < columnsIndexes.size(); i++) {
-                        int colIndex = columnsIndexes.get(i);
-                        dataResult.append(data[colIndex]);
-
-                        if (i < columnsIndexes.size() - 1) {
-                            dataResult.append(delimiter);
-                        }
-                    }
-                    writer.write(dataResult.toString());
+                    writer.write(getOut(scanner, delimiter, columnsIndexes).toString());
                     writer.newLine();
                 }
             }
@@ -124,5 +76,43 @@ public class CSVReader {
             throw new IllegalArgumentException(String.format("Not directory %s", file.getAbsoluteFile()));
         }
         return true;
+    }
+
+    public static void getColumnsIndexes(String[] neededColumns, String[] allColumns, List<Integer> columnsIndexes) {
+        for (String needed : neededColumns) {
+            for (int i = 0; i < allColumns.length; i++) {
+                if (needed.equals(allColumns[i])) {
+                    columnsIndexes.add(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    public static void getHeaderResult(List<Integer> columnsIndexes, String[] allColumns, StringBuilder headerResult,
+                                       String delimiter) {
+        for (int i = 0; i < columnsIndexes.size(); i++) {
+            int colIndex = columnsIndexes.get(i);
+            headerResult.append(allColumns[colIndex]);
+
+            if (i < columnsIndexes.size() - 1) {
+                headerResult.append(delimiter);
+            }
+        }
+    }
+
+    private static StringBuilder getOut(Scanner scanner, String delimiter, List<Integer> columnsIndexes) {
+        String line = scanner.nextLine();
+        String[] data = line.split(delimiter);
+        StringBuilder dataResult = new StringBuilder();
+        for (int i = 0; i < columnsIndexes.size(); i++) {
+            int colIndex = columnsIndexes.get(i);
+            dataResult.append(data[colIndex]);
+
+            if (i < columnsIndexes.size() - 1) {
+                dataResult.append(delimiter);
+            }
+        }
+        return dataResult;
     }
 }
