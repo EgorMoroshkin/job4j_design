@@ -14,7 +14,7 @@ class AnalysisTest {
     @Test
     void drop(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("source.txt").toFile();
-        try (PrintWriter output = new PrintWriter(source)){
+        try (PrintWriter output = new PrintWriter(source)) {
             output.println("200 10:56:01");
             output.println("500 10:57:01");
             output.println("400 10:58:01");
