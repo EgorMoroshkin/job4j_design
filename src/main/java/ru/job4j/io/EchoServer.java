@@ -6,9 +6,7 @@ import java.net.Socket;
 
 public class EchoServer {
     public static void main(String[] args) throws IOException {
-        String exit = "Exit";
-        String hello = "Hello";
-        String what = "What";
+        String exit = "Bye";
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
@@ -16,20 +14,13 @@ public class EchoServer {
                      BufferedReader input = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    output.write("Hello, dear friend.".getBytes());
                     output.write("\r\n".getBytes());
-                    for (String string = input.readLine(); string != null && !string.isEmpty(); string = input.readLine()) {
-                        if (string.contains(exit)) {
-                            server.close();
-                            output.write(exit.getBytes());
-                        }
-                        if (string.contains(hello)) {
-                            output.write(hello.getBytes());
-                        }
-                        if (string.contains(what)) {
-                            output.write(what.getBytes());
-                        }
-                        System.out.println(string);
+                    String string = input.readLine();
+                    System.out.println(string);
+                    if (string.contains(exit)) {
+                        server.close();
+                        output.write(exit.getBytes());
+                        System.out.println("Сервер завершил работу");
                     }
                     output.flush();
                 }
