@@ -1,4 +1,4 @@
-package serialization;
+package serialization.json;
 
 import java.io.*;
 import java.nio.file.Files;
