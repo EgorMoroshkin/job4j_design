@@ -1,34 +1,30 @@
 package serialization.json;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
-import java.io.StringReader;
-import java.io.StringWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        Cat cat = new Cat(11, "Tom", true, new String[]{"Jerry", "Bella"});
-        /* Получаем контекст для доступа к АПИ */
-        JAXBContext context = JAXBContext.newInstance(Cat.class);
-        /* Создаем сериализатор */
-        Marshaller marshaller = context.createMarshaller();
-        /* Указываем, что нам нужно форматирование */
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        String xml = "";
-        try (StringWriter writer = new StringWriter()) {
-            /* Сериализуем */
-            marshaller.marshal(cat, writer);
-            xml = writer.getBuffer().toString();
-            System.out.println(xml);
-        }
-        /* Для десериализации нам нужно создать десериализатор */
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        try (StringReader reader = new StringReader(xml)) {
-            /* десериализуем */
-            Cat result = (Cat) unmarshaller.unmarshal(reader);
-            System.out.println(result);
-        }
+    public static void main(String[] args) {
+        final Cat cat = new Cat(11, "Tom", true, new String[]{"Jerry", "Bella"});
 
+        /* Преобразуем объект person в json-строку. */
+        final Gson gson = new GsonBuilder().create();
+        System.out.println(gson.toJson(cat));
+
+        /* Создаём новую json-строку с модифицированными данными*/
+        final String catJson =
+                "{"
+                        + "age:5,"
+                        + "name:Rufus,"
+                        + "contact:"
+                        + "{"
+                        + "colorIsBlack:true"
+                        + "},"
+                        + "child:"
+                        + "[Emma,Ira]"
+                        + "}";
+        /* Превращаем json-строку обратно в объект */
+        final Cat personMod = gson.fromJson(catJson, Cat.class);
+        System.out.println(personMod);
     }
 }

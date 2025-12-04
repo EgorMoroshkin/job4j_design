@@ -1,24 +1,13 @@
 package serialization.json;
 
-import jakarta.xml.bind.annotation.*;
 
 import java.util.Arrays;
 
-@XmlRootElement(name = "cat")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Cat {
-    @XmlAttribute
-    private int age;
-    private String name;
-    private boolean colorIsBlack;
-
-    @XmlElementWrapper(name = "children")
-    @XmlElement(name = "child")
-    private String[] child;
-
-    public Cat() {
-
-    }
+    private final int age;
+    private final String name;
+    private final boolean colorIsBlack;
+    private final String[] child;
 
     public Cat(int age, String name, boolean colorIsBlack, String[] child) {
         this.age = age;
