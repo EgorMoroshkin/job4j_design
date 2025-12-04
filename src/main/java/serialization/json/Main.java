@@ -1,30 +1,31 @@
 package serialization.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        /* JSONArray из ArrayList */
+        List<String> list = new ArrayList<>();
+        list.add("Jerry");
+        list.add("Bella");
+        JSONArray jsonStatuses = new JSONArray(list);
+
+        /* JSONObject напрямую методом put */
         final Cat cat = new Cat(11, "Tom", true, new String[]{"Jerry", "Bella"});
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("age", cat.getAge());
+        jsonObject.put("name", cat.getName());
+        jsonObject.put("colorIsBlack", cat.getColorIsBlack());
+        jsonObject.put("child", jsonStatuses);
 
-        /* Преобразуем объект person в json-строку. */
-        final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(cat));
+        /* Выведем результат в консоль */
+        System.out.println(jsonObject.toString());
 
-        /* Создаём новую json-строку с модифицированными данными*/
-        final String catJson =
-                "{"
-                        + "age:5,"
-                        + "name:Rufus,"
-                        + "contact:"
-                        + "{"
-                        + "colorIsBlack:true"
-                        + "},"
-                        + "child:"
-                        + "[Emma,Ira]"
-                        + "}";
-        /* Превращаем json-строку обратно в объект */
-        final Cat personMod = gson.fromJson(catJson, Cat.class);
-        System.out.println(personMod);
+        /* Преобразуем объект person в json-строку */
+        System.out.println(new JSONObject(cat).toString());
     }
 }

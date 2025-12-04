@@ -1,8 +1,10 @@
 package serialization.json;
 
+import lombok.Getter;
 
 import java.util.Arrays;
 
+@Getter
 public class Cat {
     private final int age;
     private final String name;
@@ -14,6 +16,10 @@ public class Cat {
         this.name = name;
         this.colorIsBlack = colorIsBlack;
         this.child = child;
+    }
+
+    public boolean getColorIsBlack() {
+        return colorIsBlack;
     }
 
     @Override
