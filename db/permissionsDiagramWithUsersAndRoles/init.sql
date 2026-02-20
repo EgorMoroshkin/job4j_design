@@ -1,0 +1,1 @@
+CREATE DATABASE application_system_db;
