@@ -1,0 +1,1 @@
+SELECT * FROM fauna WHERE name LIKE '%fish%';

@@ -1,0 +1,1 @@
+SELECT * FROM fauna WHERE discovery_date IS NULL;
