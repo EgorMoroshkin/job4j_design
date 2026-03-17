@@ -1,0 +1,19 @@
+CREATE TABLE devices
+(
+    id    SERIAL PRIMARY KEY,
+    name  VARCHAR(255),
+    price FLOAT
+);
+
+CREATE TABLE people
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+CREATE TABLE devices_people
+(
+    id        SERIAL PRIMARY KEY,
+    device_id INT REFERENCES devices (id),
+    people_id INT REFERENCES people (id)
+);
